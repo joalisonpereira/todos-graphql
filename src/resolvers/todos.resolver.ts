@@ -7,6 +7,7 @@ import {
   Root,
 } from "type-graphql";
 import { CreateTodoInput } from "../dtos/inputs/create-todo.input";
+import { UpdateTodoInput } from "../dtos/inputs/update-todo.input";
 import { Todo } from "../dtos/models/todo.model";
 import { User } from "../dtos/models/user.model";
 import db from "../mocks/db";
@@ -26,6 +27,26 @@ export class TodosResolver {
     };
 
     return todo;
+  }
+
+  @Mutation(() => Boolean)
+  async updateTodo(@Arg("data", { validate: false }) data: UpdateTodoInput) {
+    db.todos = db.todos.map((item) => {
+      if (data.id === item.id) {
+        return { ...data, doneAt: new Date(data.doneAt), id: item.id };
+      }
+
+      return item;
+    });
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async removeTodo(@Arg("id") id: string) {
+    db.todos = db.todos.filter((t) => t.id !== id);
+
+    return true;
   }
 
   @FieldResolver(() => User)
