@@ -9,7 +9,7 @@ export class Todo {
   name: string;
 
   @Field()
-  doneAt: Date;
+  doneAt: string;
 
   @Field()
   userId: string;

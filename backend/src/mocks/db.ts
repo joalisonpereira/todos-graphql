@@ -1,4 +1,5 @@
 import { v4 } from "uuid";
+import { Todo } from "../dtos/models/todo.model";
 
 const users = [
   {
@@ -26,26 +27,20 @@ const db = {
     {
       id: v4(),
       name: "Learn something",
-      doneAt: new Date(),
+      doneAt: "2010-03-02",
       userId: users[0].id,
     },
     {
       id: v4(),
       name: "Learn something",
-      doneAt: new Date(),
+      doneAt: "2010-03-02",
       userId: users[1].id,
     },
     {
       id: v4(),
       name: "Learn something",
-      doneAt: new Date(),
+      doneAt: "2010-03-02",
       userId: users[1].id,
-    },
-    {
-      id: v4(),
-      name: "Learn something",
-      doneAt: new Date(),
-      userId: users[0].id,
     },
   ],
 };

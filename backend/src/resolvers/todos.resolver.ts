@@ -6,6 +6,7 @@ import {
   FieldResolver,
   Root,
 } from "type-graphql";
+import { v4 } from "uuid";
 import { CreateTodoInput } from "../dtos/inputs/create-todo.input";
 import { UpdateTodoInput } from "../dtos/inputs/update-todo.input";
 import { Todo } from "../dtos/models/todo.model";
@@ -20,11 +21,15 @@ export class TodosResolver {
   }
 
   @Mutation(() => Todo)
-  async createTodo(@Arg("data") data: CreateTodoInput) {
+  async createTodo(@Arg("data", { validate: false }) data: CreateTodoInput) {
     const todo = {
+      id: v4(),
       name: data.name,
       doneAt: data.doneAt,
+      userId: "0",
     };
+
+    db.todos = [...db.todos, todo];
 
     return todo;
   }
@@ -33,7 +38,7 @@ export class TodosResolver {
   async updateTodo(@Arg("data", { validate: false }) data: UpdateTodoInput) {
     db.todos = db.todos.map((item) => {
       if (data.id === item.id) {
-        return { ...data, doneAt: new Date(data.doneAt), id: item.id };
+        return { ...data, id: item.id };
       }
 
       return item;
